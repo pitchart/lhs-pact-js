@@ -25,7 +25,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "pretest:pact": "rimraf pacts/*.json",
-    "test:pact": "CI=true react-scripts test --testTimeout=30000 pact.spec.js"    
+    "test:pact": "react-scripts test --testTimeout=30000 api.pact.spec.js"    
   },
   "eslintConfig": {
     "extends": [

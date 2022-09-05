@@ -1,25 +1,26 @@
-# Consumer driven contract testing with Pact
-Full README can be found here: [Facilitation.md](https://sources.insidegroup.fr/id2s/training/craftsmanship/contract-testing-with-pact/contract-testing-learning-hours/-/blob/master/cdct-with-pact/Facilitation.md)
+# HTTP consumer tests with the Pact DSL
+## JS Practice
+Implents Pact test for happy path (200/201) for the API in this consumer app, in the `api.pact.spec.js` file.
 
-## Concrete Practice
-The project contains 2 apps. One front (consumer) using the API provided by the backend (producer).
-Inspect existing tests in `consumer/src/api.spec.js`.
-You can run it from the root folder:
+**hint**: launch the `npm install` as soon as possible, it takes some time
+
+You can start the tests from the `consumer` folder with;
 ```bash
-npm i
-npm test --prefix consumer
+react-scripts test --testTimeout=30000 api.pact.spec.js
 ```
 
----
-
-You may start both projects to see if the app works well. From root folder:
+or from the root folder with:
 ```bash
-npm i # if not already done
-npm start --prefix provider
-```
-From another terminal:
-```bash
-npm start --prefix consumer
+npm run test:pact --prefix consumer
 ```
 
-If you go to the url specified in the consumer process and browse through it, do you see any problem ?
+Documentation needed can be found here:
+* [Consumer test](https://docs.pact.io/implementation_guides/javascript/docs/consumer)
+
+* [DSL matching rules](https://docs.pact.io/implementation_guides/javascript/docs/matching#v3-matching-rules)
+
+If you can't find what to test, you *may* look at the `api.spec.js` that performs the same tests without Pact. 
+
+
+## Solution
+Solution is avaible in the `solution.api.pact.spec.js`. Explaination for the solution are in [Solution.md](Solution.md)
