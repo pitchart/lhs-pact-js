@@ -1,9 +1,25 @@
-# Contract testing - Learning hours JS
-Port to Js of the [original contract testing LH repo](https://sources.insidegroup.fr/id2s/training/craftsmanship/contract-testing-with-pact/contract-testing-learning-hours/-/blob/master/README.md)
+# Consumer driven contract testing with Pact
+Full README can be found here: [Facilitation.md](https://sources.insidegroup.fr/id2s/training/craftsmanship/contract-testing-with-pact/contract-testing-learning-hours/-/blob/master/cdct-with-pact/Facilitation.md)
 
-Each learning hour resides in a specific branch
+## Concrete Practice
+The project contains 2 apps. One front (consumer) using the API provided by the backend (producer).
+Inspect existing tests in `consumer/src/api.spec.js`.
+You can run it from the root folder:
+```bash
+npm i
+npm test --prefix consumer
+```
 
-1. `contract-testing-intro` Consumer driven contract testing with Pact
-2. `consumer-testing-basic` HTTP consumer tests with the Pact DSL
-3. `consumer-testing-advanced` Use case driven consumer tests
-4. `test-matching` Choose the right type of matching
+---
+
+You may start both projects to see if the app works well. From root folder:
+```bash
+npm i # if not already done
+npm start --prefix provider
+```
+From another terminal:
+```bash
+npm start --prefix consumer
+```
+
+If you go to the url specified in the consumer process and browse through it, do you see any problem ?
