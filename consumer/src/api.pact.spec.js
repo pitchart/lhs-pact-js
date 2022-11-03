@@ -2,12 +2,15 @@ import {
   PactV3,
   MatchersV3
 } from "@pact-foundation/pact";
+import { eachLike } from "@pact-foundation/pact/src/v3/matchers";
 import { API } from "./api";
 
 const provider = new PactV3({
   consumer: "PRODUCT-WEB",
   provider: "PRODUCT-API",
 });
+
+const body =  {id: '1', type: 'credit_card', name: '28Deg'}
 
 test("products exists", async () => {
   // Describe the Pact interaction
@@ -22,9 +25,7 @@ test("products exists", async () => {
     },
     willRespondWith: {
       status: 200,
-      body: {
-        
-      } 
+      body: eachLike(body)
     },
     /*
     states: undefined,
@@ -37,5 +38,8 @@ test("products exists", async () => {
 
     // the API will make a call to the Pact mock consumer
     const product = await api.getAllProducts();
+
+    expect(Array.isArray(product)).toBe(true)
+    expect(product[0]).toEqual(body)
   });
 });
