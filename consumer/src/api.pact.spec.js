@@ -5,14 +5,30 @@ import {
 import { API } from "./api";
 
 const provider = new PactV3({
-  consumer: "",
-  provider: "",
+  consumer: "PRODUCT-WEB",
+  provider: "PRODUCT-API",
 });
 
 test("products exists", async () => {
   // Describe the Pact interaction
   await provider.addInteraction({
-  
+    uponReceiving: 'Retrieve all the products',
+    withRequest: {
+      method: 'GET',
+      path: '/products',
+      header: {
+        'Accept': 'application/json',
+      },
+    },
+    willRespondWith: {
+      status: 200,
+      body: {
+        
+      } 
+    },
+    /*
+    states: undefined,
+    */
   });
 
   // Create the test for the api, as a classic unitary test --> you can use jest, chai, ...

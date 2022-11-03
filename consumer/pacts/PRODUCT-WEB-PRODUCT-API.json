@@ -1,0 +1,36 @@
+{
+  "consumer": {
+    "name": "PRODUCT-WEB"
+  },
+  "interactions": [
+    {
+      "description": "Retrieve all the products",
+      "request": {
+        "method": "GET",
+        "path": "/products"
+      },
+      "response": {
+        "body": {},
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "status": 200
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "10.0.0-beta.62"
+    },
+    "pactRust": {
+      "ffi": "0.2.4",
+      "models": "0.3.1"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "PRODUCT-API"
+  }
+}
