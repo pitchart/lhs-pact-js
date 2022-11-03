@@ -1,7 +1,7 @@
 import {
   PactV3,
-  MatchersV3
 } from "@pact-foundation/pact";
+import { like } from "@pact-foundation/pact/src/dsl/matchers";
 import { eachLike } from "@pact-foundation/pact/src/v3/matchers";
 import { API } from "./api";
 
@@ -11,90 +11,76 @@ const provider = new PactV3({
 });
 
 const body =  {id: '1', type: 'credit_card', name: '28Deg'}
+const getAProduct = (id)  => ({
+  method: 'GET',
+  path: `/products/${id}`,
+  header: {
+    'Accept': 'application/json',
+  }
+})
 
-test("products exists", async () => {
-  // Describe the Pact interaction
-  await provider.addInteraction({
-    uponReceiving: 'Retrieve all the products',
-    withRequest: {
-      method: 'GET',
-      path: '/products',
-      header: {
-        'Accept': 'application/json',
+
+describe('product list', () => {
+  it("should retrieve all products", async () => {
+    await provider.addInteraction({
+      uponReceiving: 'Retrieve all the products',
+      withRequest: {
+        method: 'GET',
+        path: '/products',
+        header: {
+          'Accept': 'application/json',
+        },
       },
-    },
-    willRespondWith: {
-      status: 200,
-      body: eachLike(body)
-    },
-    /*
-    states: undefined,
-    */
-  });
+      willRespondWith: {
+        status: 200,
+        body: eachLike(body)
+      },
+    });
 
-  // Create the test for the api, as a classic unitary test --> you can use jest, chai, ...
-  await provider.executeTest(async (mockService) => {
-    const api = new API(mockService.url);
+    await provider.executeTest(async (mockService) => {
+      const api = new API(mockService.url);
 
-    // the API will make a call to the Pact mock consumer
-    const product = await api.getAllProducts();
+      const product = await api.getAllProducts();
 
-    expect(Array.isArray(product)).toBe(true)
-    expect(product[0]).toEqual(body)
+      expect(Array.isArray(product)).toBe(true)
+      expect(product[0]).toEqual(body)
+    });
   });
 });
 
-test("product with id exists", async () => {
-  // Describe the Pact interaction
+describe('product details', () => {
+
+it("should retrieve a product when it exists", async () => {
+  // arrange
   await provider.addInteraction({
     uponReceiving: 'Retrieve a product with an id',
-    withRequest: {
-      method: 'GET',
-      path: '/products/1',
-      header: {
-        'Accept': 'application/json',
-      },
-    },
+    withRequest: getAProduct(1),
     willRespondWith: {
       status: 200,
-      body
+      body: like(body)
     },
-    /*
-    states: undefined,
-    */
   });
 
-  // Create the test for the api, as a classic unitary test --> you can use jest, chai, ...
   await provider.executeTest(async (mockService) => {
     const api = new API(mockService.url);
 
-    // the API will make a call to the Pact mock consumer
+    // act
     const product = await api.getProduct(1);
 
+    // assert
     expect(product).toEqual(body)
   });
 });
 
-test("product with id not exists", async () => {
-  // Describe the Pact interaction
+it("should throw an error when id does not exists", async () => {
   await provider.addInteraction({
     uponReceiving: 'Retrieve a product with a not existing id',
-    withRequest: {
-      method: 'GET',
-      path: '/products/19',
-      header: {
-        'Accept': 'application/json',
-      },
-    },
+    withRequest: getAProduct(19),
     willRespondWith: {
       status: 404,
     },
-    /*
-    states: undefined,
-    */
   });
 
-  // Create the test for the api, as a classic unitary test --> you can use jest, chai, ...
   await provider.executeTest(async (mockService) => {
     const api = new API(mockService.url);
 
@@ -105,3 +91,5 @@ test("product with id not exists", async () => {
     await expect(httpCall()).rejects.toThrow();
   });
 });
+})
+
