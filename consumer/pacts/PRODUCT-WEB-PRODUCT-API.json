@@ -4,6 +4,34 @@
   },
   "interactions": [
     {
+      "description": "Retrieve a product with a not existing id",
+      "request": {
+        "method": "GET",
+        "path": "/products/19"
+      },
+      "response": {
+        "status": 404
+      }
+    },
+    {
+      "description": "Retrieve a product with an id",
+      "request": {
+        "method": "GET",
+        "path": "/products/1"
+      },
+      "response": {
+        "body": {
+          "id": "1",
+          "name": "28Deg",
+          "type": "credit_card"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "status": 200
+      }
+    },
+    {
       "description": "Retrieve all the products",
       "request": {
         "method": "GET",
